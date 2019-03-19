@@ -353,7 +353,7 @@ function ZFlex.OnDraw()
     cursor_pos = Input.GetWorldCursorPos()
     if enemy and enemy ~= 0 then
     enemy_origin = Entity.GetAbsOrigin(enemy)
-    end
+
     if (cursor_pos - enemy_origin):Length2D() > Menu.GetValue(ZFlex.NearestTarget) then 
             Particle.Destroy(targetParticle)		
 			targetParticle = 0
@@ -393,6 +393,7 @@ function ZFlex.OnDraw()
             targetParticle = 0
 		end
     end
+end
 end
 
 function ZFlex.GetItems(myHero)
@@ -752,7 +753,7 @@ function ZFlex.BhAutoTrackForSteal(myHero, enemy)
     local XpMaxEnemy = Entity.GetMaxHealth(enemy)
     local lvl_toss = Ability.GetLevel(bh_shurikentoss)
     local damage_toss = Ability.GetLevelSpecialValueForFloat(bh_shurikentoss, "bonus_damage")
-    if XpEnemy <= damage_toss then
+    if XpEnemy <= damage_toss*NPC.GetMagicalArmorDamageMultiplier(enemy) then
         if Ability.IsReady(bh_track) and not bh_trackmod and ZFlex.SleepReady(0.3) then
             Ability.CastTarget(bh_track, enemy)
         end
@@ -798,7 +799,7 @@ function ZFlex.RikiStealBlink(myHero, enemy)
     end
     RikiXpEnemy = Entity.GetHealth(enemy)
     RikiXpMaxEnemy = Entity.GetMaxHealth(enemy)
-    LvlDamage = Ability.GetLevelSpecialValueForFloat(riki_blink, "bonus_damage")
+    LvlDamage = Ability.GetLevelSpecialValueForFloat(riki_blink, "bonus_damage")*NPC.GetMagicalArmorDamageMultiplier(enemy)
     if RikiXpEnemy <= LvlDamage then
         if Ability.IsReady(riki_blink) and ZFlex.SleepReady(0.3) then
             Ability.CastTarget(riki_blink, enemy)
