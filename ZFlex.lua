@@ -746,7 +746,7 @@ function ZFlex.BhAutoTrackForInviz(myHero, enemy)
     ZFlex.BhSkills(myHero, myMana, enemy)
     local enemyname = NPC.GetUnitName(enemy)
     if not bh_trackmod or ZFlex.SleepReady(26.0) then
-        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invisibility_edge") then 
+        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invis_sword") then 
             Ability.CastTarget(bh_track, enemy)   
             ZFlex.lastTick = os.clock()
         end
@@ -921,7 +921,7 @@ function ZFlex.SlardarAutoUlt(myHero, myMana, enemy)
 
     ZFlex.SlardarSkills(myHero, myMana, enemy)
     if not slardar_corrosivehazeMod or ZFlex.SleepReady(15.0) then
-        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invisibility_edge") then 
+        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invis_sword") then 
                 Ability.CastTarget(slardar_corrosivehaze, enemy)   
                 ZFlex.lastTick = os.clock()
         end
