@@ -118,8 +118,11 @@ Menu.AddOptionIcon(ZFlex.Howl, "panorama/images/spellicons/lycan_howl_png.vtex_c
 ZFlex.ShapeShift = Menu.AddOptionBool(ZFlex.Lycan_Spels, "ShapeShift", false)
 Menu.AddOptionIcon(ZFlex.ShapeShift, "panorama/images/spellicons/lycan_shapeshift_png.vtex_c")
 ZFlex.optionHowl = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Howl on couldown", false)
+--ZFlex.optionPush = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Push",false)
+--ZFlex.KeyPush = Menu.AddKeyOption(ZFlex.Lycan_Hero_Menu, "Key Push", Enum.ButtonCode.KEY_N)
 --ZFlex.optionWolves = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Wolves for warding", false)
 --ZFlex.optionWolvesKey = Menu.AddKeyOption(ZFlex.Lycan_Hero_Menu,"Warding Wolves", Enum.ButtonCode.KEY_N)
+ZFlex.optionDominator = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Skills Dominator creep", false)
 
 --Items
 ZFlex.Items = {"ZFlex", "Items"}
@@ -322,18 +325,24 @@ function ZFlex.OnUpdate()
 
     if heroName == "npc_dota_hero_lycan" and Menu.IsEnabled(ZFlex.Lycan_optionEnabled) then
         enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
-        if enemy and enemy ~= 0 then         
+       -- if Menu.IsEnabled(ZFlex.optionPush) and Menu.IsKeyDown(ZFlex.KeyPush) then
+       --     ZFlex.TowerStentecher(myHero, myMana)
+       -- end
+        if enemy and enemy ~= 0 then        
+            if Menu.IsEnabled(ZFlex.optionHowl) then
+                ZFlex.LycanHowl(myHero)
+            end 
             if Menu.IsKeyDown(ZFlex.optionKey) then  
                 myMana = NPC.GetMana(myHero)
                 ZFlex.Lycan(myHero, enemy, myMana)
                 if ZFlex.SleepReady(0.5) then
                     ZFlex.UseItems(myHero, enemy, myMana)
                 end
+                if Menu.IsEnabled(ZFlex.optionDominator) then
+                    ZFlex.LycanSkillDominator(myHero, enemy)
+                end
             end 
         end
-        if Menu.IsEnabled(ZFlex.optionHowl) then
-            ZFlex.LycanHowl(myHero)
-         end
     end
 
 end
@@ -346,7 +355,6 @@ function ZFlex.OnDraw()
 		end
 	    return
     end
-    ZFlex.Init()
     enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
     local enemyStatus = (enemy and enemy~= 0)
     enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
@@ -534,7 +542,7 @@ function ZFlex.Slardar(myHero, enemy, myMana)
             if slardar_slithereencrush and Ability.IsCastable(slardar_slithereencrush, myMana) and Menu.IsEnabled(ZFlex.Slardar_SlithereenCrush) and RadiusForUseSkill < 240 then
                 Ability.CastNoTarget(slardar_slithereencrush)
             end
-            if slardar_corrosivehaze and Ability.IsReady(slardar_corrosivehaze, myMana) and not slardar_corrosivehazeMod then
+            if slardar_corrosivehaze and Ability.IsReady(slardar_corrosivehaze, myMana) and not slardar_corrosivehazeMod and not Ability.IsReady(slardar_slithereencrush) then
                 Ability.CastTarget(slardar_corrosivehaze, enemy)
                 ZFlex.lastTick = os.clock()
             end
@@ -737,10 +745,18 @@ function ZFlex.BhAutoTrackForInviz(myHero, enemy)
     end
     ZFlex.BhSkills(myHero, myMana, enemy)
     local enemyname = NPC.GetUnitName(enemy)
-    if ZFlex.SleepReady(0.3) and not bh_trackmod then
-        if enemyname == "npc_dota_hero_riki" or enemyname == "npc_dota_hero_weaver" then
+    if not bh_trackmod or ZFlex.SleepReady(26.0) then
+        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invisibility_edge") then 
+            Ability.CastTarget(bh_track, enemy)   
+            ZFlex.lastTick = os.clock()
+        end
+        if NPC.HasModifier(enemy, "modifier_riki_permanent_invisibility") or NPC.HasModifier(enemy, "modifier_invisible") or NPC.HasModifier(enemy, "modifier_item_invisibility_edge_windwalk") or NPC.HasModifier(enemy, "modifier_weaver_shukuchi") then
             Ability.CastTarget(bh_track, enemy)    
             ZFlex.lastTick = os.clock()
+        end
+        if Ability.IsReady(NPC.GetAbility(enemy, "weaver_shukuchi")) then
+            Ability.CastTarget(bh_track, enemy)  
+            ZFlex.lastTick = os.clock() 
         end
     end
 end
@@ -904,9 +920,18 @@ function ZFlex.SlardarAutoUlt(myHero, myMana, enemy)
     hero_name = NPC.GetUnitName(enemy)
 
     ZFlex.SlardarSkills(myHero, myMana, enemy)
-    if ZFlex.SleepReady(0.3) and not slardar_corrosivehazeMod then
-        if hero_name == "npc_dota_hero_riki" or hero_name == "npc_dota_hero_weaver" then
-            Ability.CastTarget(slardar_corrosivehaze, enemy)    
+    if not slardar_corrosivehazeMod or ZFlex.SleepReady(15.0) then
+        if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invisibility_edge") then 
+                Ability.CastTarget(slardar_corrosivehaze, enemy)   
+                ZFlex.lastTick = os.clock()
+        end
+        if NPC.HasModifier(enemy, "modifier_riki_permanent_invisibility") or NPC.HasModifier(enemy, "modifier_invisible") or NPC.HasModifier(enemy, "modifier_item_invisibility_edge_windwalk") or NPC.HasModifier(enemy, "modifier_bounty_hunter_wind_walk") or NPC.HasModifier(enemy, "modifier_weaver_shukuchi") then
+                Ability.CastTarget(slardar_corrosivehaze, enemy)    
+                ZFlex.lastTick = os.clock()
+        end
+        if Ability.IsReady(NPC.GetAbility(enemy, "bounty_hunter_shadow_walk")) or Ability.IsReady(NPC.GetAbility(enemy, "weaver_shukuchi")) then
+            bility.CastTarget(slardar_corrosivehaze, enemy)   
+            ZFlex.lastTick = os.clock()
         end
     end
 end
@@ -936,6 +961,55 @@ function ZFlex.LycanHowl(myHero)
         Ability.CastNoTarget(howl)
     end
 end
+function ZFlex.LycanSkillDominator(myHero, enemy)
+    vse_units = Entity.GetUnitsInRadius(myHero, 1000, Enum.TeamType.TEAM_FRIEND)
+    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.3) then
+        for i=1, #vse_units do
+            local vse_unit = vse_units[i]
+            if vse_unit and ZFlex.SleepReady(0.4) then
+                rangeenemy = Entity.GetAbsOrigin(enemy)
+                rangekrip = Entity.GetAbsOrigin(vse_unit)
+                mypos = Entity.GetAbsOrigin(myHero)
+                rangeforuseskills = (rangekrip - rangeenemy):Length2D()
+                rangeforattack = (mypos - rangeenemy):Length2D()
+                if rangeforattack <= 1000 then
+                Player.AttackTarget(Players.GetLocal(), vse_unit, enemy, false) 
+                end
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_centaur_khan" then
+                    centaur_stan = NPC.GetAbility(vse_unit, "centaur_khan_war_stomp")
+                    if centaur_stan and Ability.IsReady(centaur_stan) and rangeforuseskills <=230 then
+                        Ability.CastNoTarget(centaur_stan)
+                    end
+                end
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_mud_golem" then
+                    golem_stan = NPC.GetAbility(vse_unit, "mud_golem_hurl_boulder")
+                    if golem_stan and Ability.IsReady(golem_stan) and rangeforuseskills <=600 then
+                        Ability.CastTarget(golem_stan, enemy)
+                    end
+                end
+        
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_polar_furbolg_ursa_warrior" then
+                    ursa_clap = NPC.GetAbility(vse_unit, "polar_furbolg_ursa_warrior_thunder_clap")
+                    if ursa_clap and Ability.IsReady(ursa_clap) and rangeforuseskills <=270 then
+                        Ability.CastNoTarget(ursa_clap)
+                    end
+                end
+                
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_dark_troll_warlord" then
+                    setka = NPC.GetAbility(vse_unit, "dark_troll_warlord_ensnare")
+                    skeletu = NPC.GetAbility(vse_unit, "dark_troll_warlord_raise_dead")
+                    if skeletu and Ability.IsReady(skeletu) and rangeforuseskills <=250 then
+                        Ability.CastNoTarget(skeletu)
+                    end
+                    if setka and Ability.IsReady(setka) and rangeforuseskills <=500 then
+                        Ability.CastTarget(setka, enemy)
+                    end
+                end
+            end
+        end
+end
+                
+end
 
 -- Function Item
 --[[function ZFlex.optionItemSafe(myHero, myMana, enemy)
@@ -954,6 +1028,42 @@ end
 
 end
 
+]]
+
+--[[function ZFlex.TowerStentecher(myHero, myMana)
+    vse_units = Entity.GetUnitsInRadius(myHero, 900, Enum.TeamType.TEAM_FRIEND)
+    Towera = Entity.GetUnitsInRadius(myHero, 60000, Enum.TeamType.TEAM_ENEMY)
+    ZFlex.GetItems(myHero)
+    ZFlex.LycanSkills(myHero, myMana, enemy)
+
+    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.3) then
+        for i=1, #vse_units do
+            local vse_unit = vse_units[i]
+            if vse_unit then
+                if Towera and #Towera > 0 then
+                    for i=1, #Towera do
+                        local Tower = Towera[i]
+                        if Tower then
+                            if NPC.IsTower(Tower) then
+                            if wolves and Ability.IsReady(wolves, myMana) and ZFlex.SleepReady(0.5) then
+                                    Ability.CastNoTarget(wolves)
+                            end
+                            if necra and Ability.IsReady(necra, myMana) and ZFlex.SleepReady(0.5) then
+                                Ability.CastNoTarget(necra)
+                            end
+                            if NPC.GetUnitName(vse_unit) == "npc_dota_lycan_wolf1" or NPC.GetUnitName(vse_unit) == "npc_dota_lycan_wolf1" or NPC.GetUnitName(vse_unit) == "npc_dota_lycan_wolf2" or NPC.GetUnitName(vse_unit) == "npc_dota_lycan_wolf3" or NPC.GetUnitName(vse_unit) == "npc_dota_lycan_wolf4" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_archer_1" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_archer_2" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_archer_3" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_warrior_1" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_warrior_2" or NPC.GetUnitName(vse_unit) == "npc_dota_necronomicon_warrior_3" then
+                                    Player.AttackTarget(Players.GetLocal(), vse_unit, Tower, false) 
+                            end
+                        end
+                    end
+                    end
+                end
+            end
+        end
+
+        ZFlex.lastTick = os.clock()
+    end
+end
 ]]
 function ZFlex.SleepReady(sleep, lastTick)
     if (os.clock() - ZFlex.lastTick) >= sleep then
