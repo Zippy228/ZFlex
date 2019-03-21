@@ -19,7 +19,7 @@ ZFlex.Bh_optionEnabled = Menu.AddOptionBool(ZFlex.Bh_Hero_Menu, "Enabled", false
 Menu.AddMenuIcon(ZFlex.Bh_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_bounty_hunter_png.vtex_c")
 ZFlex.optionKey = Menu.AddKeyOption(ZFlex.Menu, "Key Combo", Enum.ButtonCode.KEY_V)
 Menu.AddOptionIcon(ZFlex.Bh_optionEnabled, "panorama/images/items/bottle_bounty_png.vtex_c")
-ZFlex.Bh_Spels = {"ZFlex", "Heroes", "Bounty Hunter", "Skils in Combo"} 
+ZFlex.Bh_Spels = {"ZFlex", "Heroes", "Bounty Hunter", "Skills in Combo"} 
 ZFlex.Bh_Track = Menu.AddOptionBool(ZFlex.Bh_Spels, "Track", false)
 Menu.AddOptionIcon(ZFlex.Bh_Track, "panorama/images/spellicons/bounty_hunter/hunters_hoard/bounty_hunter_track_png.vtex_c")
 ZFlex.Bh_ShurikenToss = Menu.AddOptionBool(ZFlex.Bh_Spels, "Shuriken Toss", false)
@@ -30,7 +30,7 @@ ZFlex.Bh_Inviz = Menu.AddOptionBool(ZFlex.Bh_Hero_Menu, "Use Shadow Walk if lowh
 
 --riki
 ZFlex.Riki_Hero_Menu = {"ZFlex", "Heroes", "Riki"}
-ZFlex.Riki_Spels = {"ZFlex", "Heroes", "Riki", "Skils in Combo"} 
+ZFlex.Riki_Spels = {"ZFlex", "Heroes", "Riki", "Skills in Combo"} 
 ZFlex.Riki_optionEnabled = Menu.AddOptionBool(ZFlex.Riki_Hero_Menu, "Enabled", false)
 Menu.AddOptionIcon(ZFlex.Riki_optionEnabled, "panorama/images/items/gem_of_true_sight_png.vtex_c")
 Menu.AddMenuIcon(ZFlex.Riki_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_riki_png.vtex_c")
@@ -40,23 +40,23 @@ ZFlex.Riki_Smoke = Menu.AddOptionBool(ZFlex.Riki_Spels, "Smoke Screen")
 Menu.AddOptionIcon(ZFlex.Riki_Smoke, "panorama/images/spellicons/riki/ti8_immortal_head/riki_smoke_screen_immortal_gold_png.vtex_c")
 ZFlex.Riki_Ult = Menu.AddOptionBool(ZFlex.Riki_Spels, "Tricks Of The Trade")
 Menu.AddOptionIcon(ZFlex.Riki_Ult, "panorama/images//spellicons/riki_tricks_of_the_trade_png.vtex_c")
-ZFlex.Riki_Damage_Blink = Menu.AddOptionBool(ZFlex.Riki_Hero_Menu, "AutoStil 2-nd skils", false)
+ZFlex.Riki_Damage_Blink = Menu.AddOptionBool(ZFlex.Riki_Hero_Menu, "AutoStil second skills", false)
 
 --Ursa
 ZFlex.Ursa_Hero_Menu = {"ZFlex", "Heroes", "Ursa"}
 ZFlex.Ursa_optionEnabled = Menu.AddOptionBool(ZFlex.Ursa_Hero_Menu, "Enabled", false)
 Menu.AddOptionIcon(ZFlex.Ursa_optionEnabled, "panorama/images/items/quelling_blade_png.vtex_c")
 Menu.AddMenuIcon(ZFlex.Ursa_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_ursa_png.vtex_c")
-ZFlex.Ursa_Spels = {"ZFlex", "Heroes", "Ursa", "Skils In Combo"} 
-ZFlex.Ursa_OverPower = Menu.AddOptionBool(ZFlex.Ursa_Spels, "OverPower", false)
+ZFlex.Ursa_Spels = {"ZFlex", "Heroes", "Ursa", "Skills In Combo"} 
+ZFlex.Ursa_OverPower = Menu.AddOptionBool(ZFlex.Ursa_Spels, "Overpower", false)
 Menu.AddOptionIcon(ZFlex.Ursa_OverPower, "panorama/images/spellicons/ursa_overpower_png.vtex_c")
-ZFlex.Ursa_EarthShock = Menu.AddOptionBool(ZFlex.Ursa_Spels, "EarthShok", false)
-Menu.AddOptionIcon(ZFlex.Ursa_EarthShock, "panorama/images/spellicons/ursa_enrage_png.vtex_c")
-ZFlex.Ursa_EnRage = Menu.AddOptionBool(ZFlex.Ursa_Spels, "EnRage", false)
-Menu.AddOptionIcon(ZFlex.Ursa_EnRage, "panorama/images/spellicons/ursa_earthshock_png.vtex_c")
-ZFlex.UrsaOptionUlt = Menu.AddOptionSlider({"ZFlex", "Heroes", "Ursa"}, "At what percentage health of the enemy will use Enrage", 0 , 100, 100)
+ZFlex.Ursa_EarthShock = Menu.AddOptionBool(ZFlex.Ursa_Spels, "Earthshock", false)
+Menu.AddOptionIcon(ZFlex.Ursa_EarthShock, "panorama/images/spellicons/ursa_earthshock_png.vtex_c")
+ZFlex.Ursa_EnRage = Menu.AddOptionBool(ZFlex.Ursa_Spels, "Enrage", false)
+Menu.AddOptionIcon(ZFlex.Ursa_EnRage, "panorama/images/spellicons/ursa_enrage_png.vtex_c")
+ZFlex.UrsaOptionUlt = Menu.AddOptionSlider({"ZFlex", "Heroes", "Ursa"}, "At what percentag of enemy health will use 'Enrage'", 0 , 100, 100)
 ZFlex.Ursa_optionBkb = Menu.AddOptionBool(ZFlex.Ursa_Hero_Menu, "Do not use the EnRage if bkb is enabled", false)
-ZFlex.Ursa_UseUlForBring = Menu.AddOptionBool(ZFlex.Ursa_Hero_Menu, "Use Enrage for bring debuff", false)
+ZFlex.Ursa_UseUlForBring = Menu.AddOptionBool(ZFlex.Ursa_Hero_Menu, "Use Enrage to remove debuffs?", false)
 ZFlex.Ursa_Debuffs = {"ZFlex", "Heroes", "Ursa", "Debuffs"}
 ZFlex.Ursa_Hunger = Menu.AddOptionBool(ZFlex.Ursa_Debuffs, "Battle Hunger", false)
 Menu.AddOptionIcon(ZFlex.Ursa_Hunger, "panorama/images/spellicons/axe_battle_hunger_png.vtex_c")
@@ -82,7 +82,7 @@ ZFlex.Slardar_Hero_Menu = {"ZFlex", "Heroes", "Slardar"}
 ZFlex.Slardar_optionEnabled = Menu.AddOptionBool(ZFlex.Slardar_Hero_Menu, "Enabled", false)
 Menu.AddMenuIcon(ZFlex.Slardar_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_slardar_png.vtex_c")
 Menu.AddOptionIcon(ZFlex.Slardar_optionEnabled, "panorama/images/items/aeon_disk_png.vtex_c")
-ZFlex.Slardar_Spels = {"ZFlex", "Heroes", "Slardar", "Skils In Combo"} 
+ZFlex.Slardar_Spels = {"ZFlex", "Heroes", "Slardar", "Skills In Combo"} 
 ZFlex.Slardar_GuardianSprint = Menu.AddOptionBool(ZFlex.Slardar_Spels, "Guardian Sprint", false)
 Menu.AddOptionIcon(ZFlex.Slardar_GuardianSprint, "panorama/images/spellicons/slardar_sprint_png.vtex_c")
 ZFlex.Slardar_SlithereenCrush = Menu.AddOptionBool(ZFlex.Slardar_Spels, "Slithereen Crush", false)
@@ -96,7 +96,7 @@ ZFlex.Slardar_optionUlt = Menu.AddOptionBool(ZFlex.Slardar_Hero_Menu, "Auto Corr
 ZFlex.Void_Hero_Menu = {"ZFlex", "Heroes", "Faceless Void"}
 ZFlex.Void_optionEnabled = Menu.AddOptionBool(ZFlex.Void_Hero_Menu, "Enabled", false)
 Menu.AddMenuIcon(ZFlex.Void_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_faceless_void_png.vtex_c")
-ZFlex.Void_Spels = {"ZFlex", "Heroes", "Faceless Void", "Skils In Combo"}
+ZFlex.Void_Spels = {"ZFlex", "Heroes", "Faceless Void", "Skills In Combo"}
 ZFlex.Void_TimeWalk = Menu.AddOptionBool(ZFlex.Void_Spels, "Time Walk", false)
 Menu.AddOptionIcon(ZFlex.Void_TimeWalk, "panorama/images/spellicons/faceless_void_time_walk_png.vtex_c")
 ZFlex.Void_TimeDilation = Menu.AddOptionBool(ZFlex.Void_Spels, "Time Dilation", false)
@@ -110,7 +110,7 @@ ZFlex.Void_optiomChronoSphere = Menu.AddOptionSlider(ZFlex.Void_Hero_Menu, "For 
 ZFlex.Lycan_Hero_Menu = {"ZFlex", "Heroes", "Lycan"}
 ZFlex.Lycan_optionEnabled = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Enabled", false)
 Menu.AddMenuIcon(ZFlex.Lycan_Hero_Menu, "panorama/images/heroes/icons/npc_dota_hero_lycan_png.vtex_c")
-ZFlex.Lycan_Spels = {"ZFlex", "Heroes", "Lycan", "Skils In Combo"}
+ZFlex.Lycan_Spels = {"ZFlex", "Heroes", "Lycan", "Skills In Combo"}
 ZFlex.Summon_Wolves = Menu.AddOptionBool(ZFlex.Lycan_Spels, "Summon Wolves", false)
 Menu.AddOptionIcon(ZFlex.Summon_Wolves, "panorama/images/spellicons/lycan_summon_wolves_png.vtex_c")
 ZFlex.Howl = Menu.AddOptionBool(ZFlex.Lycan_Spels, "Howl", false)
@@ -122,7 +122,7 @@ ZFlex.optionHowl = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Howl on couldo
 --ZFlex.KeyPush = Menu.AddKeyOption(ZFlex.Lycan_Hero_Menu, "Key Push", Enum.ButtonCode.KEY_N)
 --ZFlex.optionWolves = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Wolves for warding", false)
 --ZFlex.optionWolvesKey = Menu.AddKeyOption(ZFlex.Lycan_Hero_Menu,"Warding Wolves", Enum.ButtonCode.KEY_N)
-ZFlex.optionDominator = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Skills Dominator creep", false)
+ZFlex.optionDominator = Menu.AddOptionBool(ZFlex.Lycan_Hero_Menu, "Use Skills of Dominator creep", false)
 
 --Items
 ZFlex.Items = {"ZFlex", "Items"}
@@ -747,17 +747,35 @@ function ZFlex.BhAutoTrackForInviz(myHero, enemy)
     local enemyname = NPC.GetUnitName(enemy)
     if not bh_trackmod or ZFlex.SleepReady(26.0) then
         if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invis_sword") then 
-            Ability.CastTarget(bh_track, enemy)   
-            ZFlex.lastTick = os.clock()
+            Ability.CastTarget(bh_track, enemy) 
+            ZFlex.lastTick = os.clock()  
         end
         if NPC.HasModifier(enemy, "modifier_riki_permanent_invisibility") or NPC.HasModifier(enemy, "modifier_invisible") or NPC.HasModifier(enemy, "modifier_item_invisibility_edge_windwalk") or NPC.HasModifier(enemy, "modifier_weaver_shukuchi") then
-            Ability.CastTarget(bh_track, enemy)    
-            ZFlex.lastTick = os.clock()
+            Ability.CastTarget(bh_track, enemy)   
+            ZFlex.lastTick = os.clock()   
         end
-        if Ability.IsReady(NPC.GetAbility(enemy, "weaver_shukuchi")) then
-            Ability.CastTarget(bh_track, enemy)  
-            ZFlex.lastTick = os.clock() 
+        if enemyname == "npc_dota_hero_invoker" then
+            Invoker_Inviz = NPC.GetAbility(enemy, "invoker_ghost_walk")
+            if Ability.GetIndex(Invoker_Inviz) == 3 or Ability.GetIndex(Invoker_Inviz) == 4 then
+                Ability.CastTarget(bh_track, enemy)  
+                ZFlex.lastTick = os.clock()  
+            end
         end
+        if enemyname == "npc_dota_hero_clinkz" then
+            Clingz_Inviz = NPC.GetAbility(enemy, "clinkz_wind_walk")
+            if Ability.IsReady(Clingz_Inviz) then
+                Ability.CastTarget(bh_track, enemy)
+                ZFlex.lastTick = os.clock() 
+            end
+        end
+        if enemyname == "npc_dota_hero_weaver" then
+            Weaver_Inviz = NPC.GetAbility(enemy, "weaver_shukuchi")
+            if Ability.IsReady(Weaver_Inviz) then
+                Ability.CastTarget(bh_track, enemy)
+                ZFlex.lastTick = os.clock() 
+             end
+        end
+
     end
 end
 function ZFlex.BhAutoTrackForSteal(myHero, enemy)
