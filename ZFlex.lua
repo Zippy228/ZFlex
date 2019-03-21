@@ -310,16 +310,15 @@ function ZFlex.OnUpdate()
 
     if heroName == "npc_dota_hero_slardar" and Menu.IsEnabled(ZFlex.Slardar_optionEnabled) then
         enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
-        if enemy and enemy ~= 0 then         
+        if enemy and enemy ~= 0 then  
+            if Menu.IsEnabled(ZFlex.Slardar_optionUlt) then
+                ZFlex.SlardarAutoUlt(myHero, myMana, enemy)
+               end       
             if Menu.IsKeyDown(ZFlex.optionKey) then  
                 myMana = NPC.GetMana(myHero)
                 ZFlex.Slardar(myHero, enemy, myMana)
                 ZFlex.UseItems(myHero, enemy, myMana)
             end  
-
-            if Menu.IsEnabled(ZFlex.Slardar_optionUlt) then
-            ZFlex.SlardarAutoUlt(myHero, myMana, enemy)
-            end
         end
     end
 
@@ -357,7 +356,6 @@ function ZFlex.OnDraw()
     end
     enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
     local enemyStatus = (enemy and enemy~= 0)
-    enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
     cursor_pos = Input.GetWorldCursorPos()
     if enemy and enemy ~= 0 then
     enemy_origin = Entity.GetAbsOrigin(enemy)
@@ -935,21 +933,37 @@ function ZFlex.SlardarSkills(myHero, myMana, enemy)
     slardar_corrosivehazeMod = NPC.GetModifier(enemy, "modifier_slardar_amplify_damage")
 end
 function ZFlex.SlardarAutoUlt(myHero, myMana, enemy)
-    hero_name = NPC.GetUnitName(enemy)
-
+    enemyname = NPC.GetUnitName(enemy)
     ZFlex.SlardarSkills(myHero, myMana, enemy)
     if not slardar_corrosivehazeMod or ZFlex.SleepReady(15.0) then
         if NPC.HasItem(enemy, "item_silver_edge") or NPC.HasItem(enemy, "item_shadow_amulet") or NPC.HasItem(enemy, "item_glimmer_cape") or NPC.HasItem(enemy, "item_invis_sword") then 
                 Ability.CastTarget(slardar_corrosivehaze, enemy)   
                 ZFlex.lastTick = os.clock()
         end
-        if NPC.HasModifier(enemy, "modifier_riki_permanent_invisibility") or NPC.HasModifier(enemy, "modifier_invisible") or NPC.HasModifier(enemy, "modifier_item_invisibility_edge_windwalk") or NPC.HasModifier(enemy, "modifier_bounty_hunter_wind_walk") or NPC.HasModifier(enemy, "modifier_weaver_shukuchi") then
+        if NPC.HasModifier(enemy, "modifier_riki_permanent_invisibility") or NPC.HasModifier(enemy, "modifier_invisible") or NPC.HasModifier(enemy, "modifier_item_invisibility_edge_windwalk") then
                 Ability.CastTarget(slardar_corrosivehaze, enemy)    
                 ZFlex.lastTick = os.clock()
         end
-        if Ability.IsReady(NPC.GetAbility(enemy, "bounty_hunter_shadow_walk")) or Ability.IsReady(NPC.GetAbility(enemy, "weaver_shukuchi")) then
-            bility.CastTarget(slardar_corrosivehaze, enemy)   
-            ZFlex.lastTick = os.clock()
+        if enemyname == "npc_dota_hero_invoker" then
+            Invoker_Inviz = NPC.GetAbility(enemy, "invoker_ghost_walk")
+            if Ability.GetIndex(Invoker_Inviz) == 3 or Ability.GetIndex(Invoker_Inviz) == 4 then
+                Ability.CastTarget(slardar_corrosivehaze, enemy)  
+                ZFlex.lastTick = os.clock()  
+            end
+        end
+        if enemyname == "npc_dota_hero_clinkz" then
+            Clingz_Inviz = NPC.GetAbility(enemy, "clinkz_wind_walk")
+            if Ability.IsReady(Clingz_Inviz) then
+                Ability.CastTarget(slardar_corrosivehaze, enemy)
+                ZFlex.lastTick = os.clock() 
+            end
+        end
+        if enemyname == "npc_dota_hero_weaver" then
+            Weaver_Inviz = NPC.GetAbility(enemy, "weaver_shukuchi")
+            if Ability.IsReady(Weaver_Inviz) then
+                Ability.CastTarget(slardar_corrosivehaze, enemy)
+                ZFlex.lastTick = os.clock() 
+             end
         end
     end
 end
