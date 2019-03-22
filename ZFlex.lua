@@ -995,52 +995,78 @@ function ZFlex.LycanHowl(myHero)
 end
 function ZFlex.LycanSkillDominator(myHero, enemy)
     vse_units = Entity.GetUnitsInRadius(myHero, 1000, Enum.TeamType.TEAM_FRIEND)
-    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.3) then
+    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.1) then
         for i=1, #vse_units do
             local vse_unit = vse_units[i]
-            if vse_unit and ZFlex.SleepReady(0.4) then
+            if vse_unit and ZFlex.SleepReady(0.1) then
+                if not Entity.IsAlive(vse_unit) or NPC.IsStunned(vse_unit) or NPC.IsSilenced(vse_unit) then 
+                    return
+                 end
+                Log.Write(NPC.GetUnitName(vse_unit))
                 rangeenemy = Entity.GetAbsOrigin(enemy)
                 rangekrip = Entity.GetAbsOrigin(vse_unit)
                 mypos = Entity.GetAbsOrigin(myHero)
+                unitMana = NPC.GetMana(vse_unit)
                 rangeforuseskills = (rangekrip - rangeenemy):Length2D()
                 rangeforattack = (mypos - rangeenemy):Length2D()
                 if rangeforattack <= 1000 then
-                Player.AttackTarget(Players.GetLocal(), vse_unit, enemy, false) 
+                    Player.AttackTarget(Players.GetLocal(), vse_unit, enemy, false) 
                 end
                 if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_centaur_khan" then
                     centaur_stan = NPC.GetAbility(vse_unit, "centaur_khan_war_stomp")
-                    if centaur_stan and Ability.IsReady(centaur_stan) and rangeforuseskills <=230 then
+                    if centaur_stan and Ability.IsReady(centaur_stan, unitMana) and rangeforuseskills <=230 then
                         Ability.CastNoTarget(centaur_stan)
+                        ZFlex.lastTick = os.clock()
                     end
                 end
+
                 if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_mud_golem" then
                     golem_stan = NPC.GetAbility(vse_unit, "mud_golem_hurl_boulder")
-                    if golem_stan and Ability.IsReady(golem_stan) and rangeforuseskills <=600 then
+                    if golem_stan and Ability.IsReady(golem_stan, unitMana) and rangeforuseskills <=600 then
                         Ability.CastTarget(golem_stan, enemy)
+                        ZFlex.lastTick = os.clock()
                     end
                 end
         
                 if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_polar_furbolg_ursa_warrior" then
                     ursa_clap = NPC.GetAbility(vse_unit, "polar_furbolg_ursa_warrior_thunder_clap")
-                    if ursa_clap and Ability.IsReady(ursa_clap) and rangeforuseskills <=270 then
+                    if ursa_clap and Ability.IsReady(ursa_clap, unitMana) and rangeforuseskills <=270 then
                         Ability.CastNoTarget(ursa_clap)
+                        ZFlex.lastTick = os.clock()
                     end
                 end
                 
                 if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_dark_troll_warlord" then
                     setka = NPC.GetAbility(vse_unit, "dark_troll_warlord_ensnare")
                     skeletu = NPC.GetAbility(vse_unit, "dark_troll_warlord_raise_dead")
-                    if skeletu and Ability.IsReady(skeletu) and rangeforuseskills <=250 then
+                    if skeletu and Ability.IsReady(skeletu, unitMana) and rangeforuseskills <=250 then
                         Ability.CastNoTarget(skeletu)
+                        ZFlex.lastTick = os.clock()
                     end
-                    if setka and Ability.IsReady(setka) and rangeforuseskills <=500 then
+                    if setka and Ability.IsReady(setka, unitMana) and rangeforuseskills <=500 then
                         Ability.CastTarget(setka, enemy)
+                        ZFlex.lastTick = os.clock()
                     end
                 end
+
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_ogre_magi" then
+                    Armor = NPC.GetAbility(vse_unit, "ogre_magi_frost_armor")
+                    ArmorMod = NPC.GetModifier(myHero, "modifier_ogre_magi_frost_armor")
+                    if Armor and Ability.IsReady(Armor) and not ArmorMod then
+                        Ability.CastTarget(Armor, myHero)
+                    end
+                end
+                if NPC.GetUnitName(vse_unit) == "npc_dota_neutral_satyr_hellcaller" then
+                    Shock = NPC.GetAbility(vse_unit, "satyr_hellcaller_shockwave")
+                    if Shock and Ability.IsReady(Shock, unitMana) then
+                        Ability.CastPosition(Shock, rangeenemy)
+                        ZFlex.lastTick = os.clock()
+                    end
+                end
+ 
             end
         end
-end
-                
+    end
 end
 
 -- Function Item
