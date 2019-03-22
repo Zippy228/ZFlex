@@ -994,15 +994,14 @@ function ZFlex.LycanHowl(myHero)
     end
 end
 function ZFlex.LycanSkillDominator(myHero, enemy)
-    vse_units = Entity.GetUnitsInRadius(myHero, 1000, Enum.TeamType.TEAM_FRIEND)
-    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.1) then
+    vse_units = Entity.GetUnitsInRadius(myHero, 800, Enum.TeamType.TEAM_FRIEND)
+    if vse_units and #vse_units > 0 and ZFlex.SleepReady(0.2) then
         for i=1, #vse_units do
             local vse_unit = vse_units[i]
-            if vse_unit and ZFlex.SleepReady(0.1) then
+            if vse_unit and ZFlex.SleepReady(0.2) then
                 if not Entity.IsAlive(vse_unit) or NPC.IsStunned(vse_unit) or NPC.IsSilenced(vse_unit) then 
                     return
                  end
-                Log.Write(NPC.GetUnitName(vse_unit))
                 rangeenemy = Entity.GetAbsOrigin(enemy)
                 rangekrip = Entity.GetAbsOrigin(vse_unit)
                 mypos = Entity.GetAbsOrigin(myHero)
