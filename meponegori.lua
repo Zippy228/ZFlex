@@ -57,7 +57,6 @@ function mp.Swither(myHero)
     health2 = Entity.GetHealth(myHero2)
     health3 = Entity.GetHealth(myHero3)
     --Log.Write(NPC.GetUnitName(myHero1))
-    if mp.SleepReady(0.4) then
             if fontan1 and not fontan3 and not fontan2 then
                 if health2 >= health3 and health1 >= health3 then
                     if ability1 and Ability.IsReady(ability1) and ability3 and Ability.IsReady(ability3) then
@@ -95,7 +94,7 @@ function mp.Swither(myHero)
                     end
                 end
             end
-        end
+       
     end
 end
 
