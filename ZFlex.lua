@@ -198,6 +198,12 @@ ZFlex.targetIndicator = Menu.AddOptionBool(ZFlex.Menu, "Draw Target", false)
 ZFlex.targetParticle2 = Menu.AddOptionCombo(ZFlex.Menu, "Type draw", {"Ultra Draw(less fps)", "Normal Draw(more fps)"}, 1)
 --ZFlex.optionLanguage = Menu.AddOptionCombo(ZFlex.Menu, "Language:", {"Русский", "English"}, 1)
 
+ZFlex.DamageInformer = {"ZFlex", "Damage Informer"}
+ZFlex.OptionDamageInformer = Menu.AddOptionBool(ZFlex.DamageInformer, "Enable", false)
+ZFlex.OptionX = Menu.AddOptionSlider(ZFlex.DamageInformer, "X", 1 , 1000, 791)
+ZFlex.OptionY = Menu.AddOptionSlider(ZFlex.DamageInformer, "Y", 1 , 1000, 92)
+ZFlex.OptionDisnance = Menu.AddOptionSlider(ZFlex.DamageInformer, "Distance", 250 , 1000, 250)
+
 ZFlex.fontItem = Renderer.LoadFont("Arial", 18, Enum.FontWeight.EXTRABOLD)
 
 local myHero = nil
@@ -222,6 +228,17 @@ ZFlex.lastTick = 0
 local myMana
 local enemyInRage
 local targetParticle = 0
+
+local kol_udar = 0
+local myHero
+local name
+
+local distance
+local x = 791
+local y = 92
+local speed
+local ursault_resist = 1
+local kol_udar_super = 0
 
 function ZFlex.Init()
 	if Engine.IsInGame() then
@@ -253,6 +270,9 @@ function ZFlex.OnUpdate()
     --if Menu.IsEnabled(ZFlex.optionSafeItem) then 
        -- ZFlex.optionItemSafe(myHero, myMana, enemy)
    -- end
+   if Menu.IsEnabled(ZFlex.OptionDamageInformer) then
+    ZFlex.Informer(myHero)
+   end
     if heroName == "npc_dota_hero_bounty_hunter" and Menu.IsEnabled(ZFlex.Bh_optionEnabled) then
         enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
         if enemy and enemy ~= 0 then
@@ -346,7 +366,215 @@ function ZFlex.OnUpdate()
 
 end
 
+function ZFlex.Informer(myHero)
+    scor=NPC.GetAttackTime(myHero)
+    local demegemk
+    if NPC.GetUnitName(myHero) == "npc_dota_hero_monkey_king" then
+        mk = NPC.GetModifier(myHero, "modifier_monkey_king_quadruple_tap_bonuses")
+        if mk then
+            demegemk = Ability.GetLevelSpecialValueFor(NPC.GetAbility(myHero, "monkey_king_jingu_mastery" ), "bonus_damage")
+        else
+            demegemk = 0
+        end
+    else
+        demegemk = 0
+    end
+    kol_damege=NPC.GetTrueDamage(myHero)
+    enemys = Entity.GetHeroesInRadius(myHero, 900, Enum.TeamType.TEAM_ENEMY)
+    if enemys and #enemys > 0 then
+        for i=1, #enemys do
+            enemy10 = enemys[i]
+            local enemy2 = enemys[2]
+            local enemy3 = enemys[3]
+            local enemy4 = enemys[4]
+            local enemy5 = enemys[5]
+            local enemy = enemys[1]
+            if NPC.GetUnitName(enemy10) == "npc_dota_hero_ursa" then
+                    ursault = NPC.GetModifier(enemy10, "modifier_ursa_enrage")
+                    if ursault then
+                        kol_damege = kol_damege*2*0.1
+                    end
+            end
+            if enemy then
+                armor = NPC.GetArmorDamageMultiplier(enemy)
+                regen = NPC.GetHealthRegen(enemy)
+                healthEn = Entity.GetHealth(enemy)
+                name = NPC.GetUnitName(enemy)
+                kol_damege1=armor*(kol_damege+demegemk)
+                kol_damege_fromregenuch = kol_damege1/scor
+                speed1 = healthEn/kol_damege_fromregenuch
+                healthWithRegen = (speed1*regen)+healthEn
+                kol_udar_withregen = healthWithRegen/kol_damege1
+                speedwithregen =  kol_udar_withregen*scor   
+            else
+                name = 0         
+            end
+            if enemy2 then
+                armor2 = NPC.GetArmorDamageMultiplier(enemy2)
+                regen2 = NPC.GetHealthRegen(enemy2)
+                healthEn2 = Entity.GetHealth(enemy2)
+                name2 = NPC.GetUnitName(enemy2)
+                kol_damege2=armor2*(kol_damege+demegemk)
+                kol_damege_fromregenuch2 = kol_damege2/scor
+                speed2 = healthEn2/kol_damege_fromregenuch2
+                healthWithRegen2 = (speed2*regen2)+healthEn2+1
+                kol_udar_withregen2 = healthWithRegen2/kol_damege2
+                speedwithregen2 =  kol_udar_withregen2*scor  
+            else
+                name2 = 0
+            end
+            if enemy3 then
+                armor3 = NPC.GetArmorDamageMultiplier(enemy3)
+                regen3 = NPC.GetHealthRegen(enemy3)
+                healthEn3 = Entity.GetHealth(enemy3)
+                name3 = NPC.GetUnitName(enemy3)
+                kol_damege3=armor*(kol_damege+demegemk)
+                kol_damege_fromregenuch3 = kol_damege3/scor
+                speed3 = healthEn3/kol_damege_fromregenuch3
+                healthWithRegen3 = (speed3*regen3)+healthEn3+1
+                kol_udar_withregen3 = healthWithRegen3/kol_damege3
+                speedwithregen3 =  kol_udar_withregen3*scor 
+            else
+                name3 = 0
+            end
+            if enemy4 then
+                armor4 = NPC.GetArmorDamageMultiplier(enemy4)
+                regen4 = NPC.GetHealthRegen(enemy4)
+                healthEn4 = Entity.GetHealth(enemy4)
+                name4 = NPC.GetUnitName(enemy4)
+                kol_damege4=armor*(kol_damege+demegemk)
+                kol_damege_fromregenuch4 = kol_damege4/scor
+                speed4 = healthEn4/kol_damege_fromregenuch4
+                healthWithRegen4 = (speed4*regen4)+healthEn4+1
+                kol_udar_withregen4 = healthWithRegen4/kol_damege4
+                speedwithregen4 =  kol_udar_withregen4*scor 
+      
+            else
+                name4 = 0
+            end
+            if enemy5 then
+                armor5 = NPC.GetArmorDamageMultiplier(enemy5)
+                regen5 = NPC.GetHealthRegen(enemy5)
+                healthEn5 = Entity.GetHealth(enemy5)
+                name5 = NPC.GetUnitName(enemy5)
+                kol_damege5=armor*(kol_damege+demegemk)
+                kol_damege_fromregenuch5 = kol_damege5/scor
+                speed5 = healthEn5/kol_damege_fromregenuch5
+                healthWithRegen5 = (speed5*regen5)+healthEn5+1
+                kol_udar_withregen5 = healthWithRegen5/kol_damege5
+                speedwithregen5 =  kol_udar_withregen5*scor      
+            else
+                name5 = 0
+            end
+        end
+    end
+end
+
+function ZFlex.cord()
+    x = Menu.GetValue(ZFlex.OptionX)
+    y = Menu.GetValue(ZFlex.OptionY)
+    xText = x-59
+    yText = y+34
+    yText2 = y+49
+    distance = Menu.GetValue(ZFlex.OptionDisnance)
+    distance1 = 0
+    distance2 = distance
+    distance3 = distance*2
+    distance4 = distance*3
+    distance5 = distance*4
+    posXdistance1 = x
+    posXdistance2 = x+distance2
+    posXdistance3 = x+distance3
+    posXdistance4 = x+distance4
+    posXdistance5 = x+distance5
+    xTextdistance1 = xText
+    xTextdistance2 = xText+distance2
+    xTextdistance3 = xText+distance3
+    xTextdistance4 = xText+distance4
+    xTextdistance5 = xText+distance5
+end
+
+
 function ZFlex.OnDraw()
+    if Menu.IsEnabled(ZFlex.OptionDamageInformer) then
+        ZFlex.cord()
+        if name then
+        icon = Renderer.LoadImage("panorama/images/heroes/icons/"..name.."_png.vtex_c")
+        IconDraw = Renderer.DrawImage(icon, posXdistance1, y, 30, 40)
+        if regen < kol_damege_fromregenuch then
+            Text_Draw_Kol = Renderer.DrawText(ZFlex.fontItem, xTextdistance1, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen))
+            Text_Draw_Time = Renderer.DrawText(ZFlex.fontItem, xText, yText2, "Время убийства: "..math.ceil(speed1).. " sec")
+        else
+            Text_Draw_Kol = Renderer.DrawText(ZFlex.fontItem, xText, yText, "Для убийства нужно ударов: Inf")
+            Text_Draw_Time = Renderer.DrawText(ZFlex.fontItem, xText, yText2, "Время убийства: Inf")
+        end
+    
+        elseif name == 0 then
+            IconDraw = nil
+            Text_Draw_Kol = nil
+            Text_Draw_Time = nil
+        end
+        if name2 then
+            icon2 = Renderer.LoadImage("panorama/images/heroes/icons/"..name2.."_png.vtex_c")
+            Icon2Draw = Renderer.DrawImage(icon2, posXdistance2, y, 30, 40)
+            if regen2 < kol_damege_fromregenuch2 then
+                Text_Draw_Kol2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen2))
+                Text_Draw_Time2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText2, "Время убийства: "..math.ceil(speedwithregen2).. " sec")
+            else
+                Text_Draw_Kol2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText, "Для убийства нужно ударов: Inf")
+                Text_Draw_Time2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText2, "Время убийства: Inf")
+            end
+        elseif name2 == 0 then
+            Icon2Draw = nil
+            Text_Draw_Kol2 = nil
+            Text_Draw_Time2 = nil
+        end
+        if name3 then
+            icon3 = Renderer.LoadImage("panorama/images/heroes/icons/"..name3.."_png.vtex_c")
+            Icon3Draw = Renderer.DrawImage(icon3, posXdistance3, y, 30, 40)
+            if regen3 < kol_damege_fromregenuch3 then
+                Text_Draw_Kol3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen3))
+                Text_Draw_Time3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText2, "Время убийства: "..math.ceil(speedwithregen3).. " sec")
+            else
+                Text_Draw_Kol3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText, "Для убийства нужно ударов: Inf")
+                Text_Draw_Time3 = Renderer.DrawText(ZFlex.fontItem,xTextdistance3, yText2, "Время убийства: Inf")
+            end
+        elseif name3 == 0 then
+            Icon3Draw = nil
+            Text_Draw_Kol3 = nil
+            Text_Draw_Time3 = nil
+        end
+        if name4 then
+        icon4 = Renderer.LoadImage("panorama/images/heroes/icons/"..name4.."_png.vtex_c")
+        Icon4Draw = Renderer.DrawImage(icon4, posXdistance4, y, 30, 40)
+        if regen4 < kol_damege_fromregenuch4 then
+            Text_Draw_Kol4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen4))
+            Text_Draw_Time4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText2, "Время убийства: "..math.ceil(speedwithregen4).. " sec")
+        else
+            Text_Draw_Kol4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText, "Для убийства нужно ударов: Inf")
+            Text_Draw_Time4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText2, "Время убийства: Inf")
+        end
+        elseif name4 == 0 then
+            Icon4Draw = nil
+            Text_Draw_Kol4 = nil
+            Text_Draw_Time4 = nil
+        end
+        if name5 then
+            icon5 = Renderer.LoadImage("panorama/images/heroes/icons/"..name5.."_png.vtex_c")
+            Icon5Draw = Renderer.DrawImage(icon5, posXdistance5, y, 30, 40)
+            if regen5 < kol_damege_fromregenuch5 then
+                Text_Draw_Kol5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen5))
+                Text_Draw_Time5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText2, "Время убийства: "..math.ceil(speedwithregen5).. " sec")
+            else
+                Text_Draw_Kol5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText, "Для убийства нужно ударов: Inf")
+                Text_Draw_Time5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText2, "Время убийства: Inf")
+            end
+        elseif name5 == 0 then
+            Icon5Draw = nil
+            Text_Draw_Kol5 = nil
+            Text_Draw_Time5 = nil
+        end
+    end
     if not Menu.IsEnabled(ZFlex.optionEnabled) or not Engine.IsInGame() then
 		if targetParticle ~= 0 then
             Particle.Destroy(targetParticle)		
@@ -399,7 +627,7 @@ function ZFlex.OnDraw()
             targetParticle = 0
 		end
     end
-end
+    end
 end
 
 function ZFlex.GetItems(myHero)
