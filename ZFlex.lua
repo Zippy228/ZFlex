@@ -195,7 +195,8 @@ Menu.AddOptionIcon(ZFlex.AncientSeal, "panorama/images/spellicons/skywrath_mage_
 ]]
 ZFlex.NearestTarget =  Menu.AddOptionSlider(ZFlex.Menu, "Closest to mouse range", 200, 800, 100)
 ZFlex.targetIndicator = Menu.AddOptionBool(ZFlex.Menu, "Draw Target", false)
-ZFlex.targetParticle2 = Menu.AddOptionCombo(ZFlex.Menu, "Type draw", {"Ultra Draw(less fps)", "Normal Draw(more fps)"}, 1)
+ZFlex.targetParticle2 = Menu.AddOptionCombo(ZFlex.Menu, "Type draw", {"Ultra Draw(only drugs)", "Normal Target", "Rot Target", "Void Target", "Super Target(recommend)", "Normal Target 2", "Not Bad Target(Soft drugs)", "Blue Fire Target"
+, "Blue Butterfly", "Red Butterfly", "Dark Rot", "Ultra Draw 2(only drugs)", "Purple Fire"}, 1)
 --ZFlex.optionLanguage = Menu.AddOptionCombo(ZFlex.Menu, "Language:", {"Русский", "English"}, 1)
 
 ZFlex.DamageInformer = {"ZFlex", "Damage Informer"}
@@ -292,7 +293,7 @@ function ZFlex.OnUpdate()
             end
         end
     end
-
+   
     if heroName == "npc_dota_hero_riki" and Menu.IsEnabled(ZFlex.Riki_optionEnabled) then
         enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
         if enemy and enemy ~= 0 then         
@@ -365,7 +366,11 @@ function ZFlex.OnUpdate()
     end
 
 end
-
+local name = 0
+local name2 = 0
+local name3 = 0
+local name4 = 0
+local name5 = 0
 function ZFlex.Informer(myHero)
     scor=NPC.GetAttackTime(myHero)
     local demegemk
@@ -494,81 +499,55 @@ function ZFlex.cord()
     xTextdistance5 = xText+distance5
 end
 
-
 function ZFlex.OnDraw()
     if Menu.IsEnabled(ZFlex.OptionDamageInformer) then
         ZFlex.cord()
-        if name then
-        icon = Renderer.LoadImage("panorama/images/heroes/icons/"..name.."_png.vtex_c")
-        IconDraw = Renderer.DrawImage(icon, posXdistance1, y, 30, 40)
-        if regen < kol_damege_fromregenuch then
+        if name ~= 0 then
+            Renderer.SetDrawColor(255, 255, 255, 255)
+            icon = Renderer.LoadImage("panorama/images/heroes/icons/"..name.."_png.vtex_c")
+            IconDraw = Renderer.DrawImage(icon, posXdistance1, y, 30, 40)
             Text_Draw_Kol = Renderer.DrawText(ZFlex.fontItem, xTextdistance1, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen))
-            Text_Draw_Time = Renderer.DrawText(ZFlex.fontItem, xText, yText2, "Время убийства: "..math.ceil(speed1).. " sec")
-        else
-            Text_Draw_Kol = Renderer.DrawText(ZFlex.fontItem, xText, yText, "Для убийства нужно ударов: Inf")
-            Text_Draw_Time = Renderer.DrawText(ZFlex.fontItem, xText, yText2, "Время убийства: Inf")
-        end
-    
+            Text_Draw_Time = Renderer.DrawText(ZFlex.fontItem, xText, yText2, "Время убийства: "..math.ceil(speedwithregen).. " sec")
         elseif name == 0 then
             IconDraw = nil
             Text_Draw_Kol = nil
             Text_Draw_Time = nil
         end
-        if name2 then
+        if name2 ~= 0 then
             icon2 = Renderer.LoadImage("panorama/images/heroes/icons/"..name2.."_png.vtex_c")
             Icon2Draw = Renderer.DrawImage(icon2, posXdistance2, y, 30, 40)
-            if regen2 < kol_damege_fromregenuch2 then
-                Text_Draw_Kol2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen2))
-                Text_Draw_Time2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText2, "Время убийства: "..math.ceil(speedwithregen2).. " sec")
-            else
-                Text_Draw_Kol2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText, "Для убийства нужно ударов: Inf")
-                Text_Draw_Time2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText2, "Время убийства: Inf")
-            end
+            Text_Draw_Kol2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen2))
+            Text_Draw_Time2 = Renderer.DrawText(ZFlex.fontItem, xTextdistance2, yText2, "Время убийства: "..math.ceil(speedwithregen2).. " sec")
         elseif name2 == 0 then
             Icon2Draw = nil
             Text_Draw_Kol2 = nil
             Text_Draw_Time2 = nil
         end
-        if name3 then
+        if name3 ~= 0 then
             icon3 = Renderer.LoadImage("panorama/images/heroes/icons/"..name3.."_png.vtex_c")
             Icon3Draw = Renderer.DrawImage(icon3, posXdistance3, y, 30, 40)
-            if regen3 < kol_damege_fromregenuch3 then
-                Text_Draw_Kol3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen3))
-                Text_Draw_Time3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText2, "Время убийства: "..math.ceil(speedwithregen3).. " sec")
-            else
-                Text_Draw_Kol3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText, "Для убийства нужно ударов: Inf")
-                Text_Draw_Time3 = Renderer.DrawText(ZFlex.fontItem,xTextdistance3, yText2, "Время убийства: Inf")
-            end
+            Text_Draw_Kol3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen3))
+            Text_Draw_Time3 = Renderer.DrawText(ZFlex.fontItem, xTextdistance3, yText2, "Время убийства: "..math.ceil(speedwithregen3).. " sec")
         elseif name3 == 0 then
             Icon3Draw = nil
             Text_Draw_Kol3 = nil
             Text_Draw_Time3 = nil
         end
-        if name4 then
-        icon4 = Renderer.LoadImage("panorama/images/heroes/icons/"..name4.."_png.vtex_c")
-        Icon4Draw = Renderer.DrawImage(icon4, posXdistance4, y, 30, 40)
-        if regen4 < kol_damege_fromregenuch4 then
+        if name4 ~= 0 then
+            icon4 = Renderer.LoadImage("panorama/images/heroes/icons/"..name4.."_png.vtex_c")
+            Icon4Draw = Renderer.DrawImage(icon4, posXdistance4, y, 30, 40)
             Text_Draw_Kol4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen4))
             Text_Draw_Time4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText2, "Время убийства: "..math.ceil(speedwithregen4).. " sec")
-        else
-            Text_Draw_Kol4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText, "Для убийства нужно ударов: Inf")
-            Text_Draw_Time4 = Renderer.DrawText(ZFlex.fontItem, xTextdistance4, yText2, "Время убийства: Inf")
-        end
         elseif name4 == 0 then
             Icon4Draw = nil
             Text_Draw_Kol4 = nil
             Text_Draw_Time4 = nil
         end
-        if name5 then
+        if name5 ~= 0 then
             icon5 = Renderer.LoadImage("panorama/images/heroes/icons/"..name5.."_png.vtex_c")
             Icon5Draw = Renderer.DrawImage(icon5, posXdistance5, y, 30, 40)
-            if regen5 < kol_damege_fromregenuch5 then
-                Text_Draw_Kol5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen5))
-                Text_Draw_Time5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText2, "Время убийства: "..math.ceil(speedwithregen5).. " sec")
-            else
-                Text_Draw_Kol5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText, "Для убийства нужно ударов: Inf")
-                Text_Draw_Time5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText2, "Время убийства: Inf")
-            end
+            Text_Draw_Kol5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText, "Для убийства нужно ударов: "..math.ceil(kol_udar_withregen5))
+            Text_Draw_Time5 = Renderer.DrawText(ZFlex.fontItem, xTextdistance5, yText2, "Время убийства: "..math.ceil(speedwithregen5).. " sec")
         elseif name5 == 0 then
             Icon5Draw = nil
             Text_Draw_Kol5 = nil
@@ -603,14 +582,36 @@ function ZFlex.OnDraw()
 		else
             if targetParticle == 0 and enemyStatus then
                 Renderer.SetDrawColor(255, 165, 0, 1)
-                if Menu.GetValue(ZFlex.targetParticle2) ~= 1 then
+                if Menu.GetValue(ZFlex.targetParticle2) == 0 then
                 targetParticle = Particle.Create("particles/units/heroes/heroes_underlord/abbysal_underlord_darkrift_ambient.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
                 elseif Menu.GetValue(ZFlex.targetParticle2) == 1 then
-                targetParticle = Particle.Create("particles/ui_mouseactions/range_finder_tower_aoe.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)			
-                end	
+                targetParticle = Particle.Create("particles/ui_mouseactions/range_finder_tower_aoe.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)	
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 2 then
+                    targetParticle = Particle.Create("particles/units/heroes/hero_pudge/pudge_rot.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 3 then	
+                    targetParticle = Particle.Create("particles/units/heroes/hero_faceless_void/faceless_void_chronosphere.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)	
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 4 then
+                    targetParticle = Particle.Create("particles/ui/ui_sweeping_ring.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 5 then
+                    targetParticle = Particle.Create("particles/ui_mouseactions/range_finder_tp_dest_target.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 6 then
+                    targetParticle = Particle.Create("particles/ui/ui_game_start_hero_spotlight.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 7 then
+                    targetParticle = Particle.Create("particles/ui/ui_debut_underlord_blastup.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 8 then
+                    targetParticle = Particle.Create("particles/world_creature_fx/butterfly_alt2.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 9 then
+                    targetParticle = Particle.Create("particles/world_creature_fx/butterfly_alt3.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 10 then
+                    targetParticle = Particle.Create("particles/dark_smoke_test.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 11 then
+                    targetParticle = Particle.Create("particles/dev/curlnoise_test.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                elseif Menu.GetValue(ZFlex.targetParticle2) == 12 then
+                    targetParticle = Particle.Create("particles/dev/rune_test_owner.vpcf", Enum.ParticleAttachment.PATTACH_INVALID, enemy)
+                end
 			end
             if targetParticle ~= 0 and enemyStatus then
-                if Menu.GetValue(ZFlex.targetParticle2) == 1 then
+                if Menu.GetValue(ZFlex.targetParticle2) == 1 or Menu.GetValue(ZFlex.targetParticle2) == 5 then
 				Particle.SetControlPoint(targetParticle, 2, Entity.GetOrigin(myHero))
 				Particle.SetControlPoint(targetParticle, 6, Vector(1, 0, 0))
                 Particle.SetControlPoint(targetParticle, 7, Entity.GetOrigin(enemy))
@@ -809,6 +810,7 @@ function ZFlex.Lycan(myHero, enemy, myMana)
         end
     end
 end
+
 function ZFlex.UseItems(myHero, enemy, myMana)
     if not enemy then return end
     enemy_origin = Entity.GetAbsOrigin(enemy)
@@ -816,7 +818,14 @@ function ZFlex.UseItems(myHero, enemy, myMana)
     local mymaxhp = Entity.GetMaxHealth(myHero)
     mypos = Entity.GetAbsOrigin(myHero)
     local RadiusForUseItem = (mypos - enemy_origin):Length2D()
-    
+    modAbysal = NPC.HasModifier(enemy,"modifier_bashed")
+    modMjol = NPC.HasModifier(myHero,"modifier_item_mjollnir_static")
+    modHex = NPC.HasModifier(enemy,"modifier_sheepstick_debuff")
+    modDefuze = NPC.HasModifier(enemy,"modifier_item_diffusal_blade_slow")
+    modNul = NPC.HasModifier(enemy,"modifier_item_nullifier_mute")
+    modBkb = NPC.HasModifier(myHero,"modifier_black_king_bar_immune")
+    modOrchid = NPC.HasModifier(enemy,"modifier_orchid_malevolence_debuff")
+    mypos = Entity.GetAbsOrigin(myHero)
     if ZFlex.SleepReady(0.4) then
 
         if Menu.GetValue(ZFlex.optionBlink) ~= 1 then
@@ -828,75 +837,127 @@ function ZFlex.UseItems(myHero, enemy, myMana)
                 Ability.CastPosition(blink, enemy_origin)
             end
         end
-
-
-        if nul and Ability.IsReady(nul) and Menu.IsEnabled(ZFlex.Nul) then
-        Ability.CastTarget(nul, enemy)
-        end
-
-        if bkb and Ability.IsReady(bkb) and Menu.IsEnabled(ZFlex.BlackKingBar) and RadiusForUseItem < 550 then
-        Ability.CastNoTarget(bkb)
-        end
-
-        if bm and Ability.IsReady(bm, myMana) and Menu.IsEnabled(ZFlex.BladeMail) and RadiusForUseItem < 550 then
-            Ability.CastNoTarget(bm)
-        end
-
-        if shiva and Ability.IsReady(shiva, myMana) and Menu.IsEnabled(ZFlex.Shiva) and RadiusForUseItem < 1100 then
-            Ability.CastNoTarget(shiva)
-        end
-
-        if orchid and Ability.IsReady(orchid, myMana) and Menu.IsEnabled(ZFlex.Orchid) and RadiusForUseItem < 901 then
-            Ability.CastTarget(orchid, enemy)
-        end
-
-        if pipe and Ability.IsReady(pipe, myMana) and Menu.IsEnabled(ZFlex.Pipe) and RadiusForUseItem < 550 then
-            Ability.CastNoTarget(pipe)
-        end
-
-        if abysal and Ability.IsReady(abysal, myMana) and Menu.IsEnabled(ZFlex.Abysal) and RadiusForUseItem < 280 then
-            Ability.CastTarget(abysal, enemy)
-        end
-
-        if medal and Ability.IsReady(medal, myMana) and Menu.IsEnabled(ZFlex.Medal) and RadiusForUseItem < 1000 then
-            Ability.CastTarget(medal, enemy)
-        end
-
-        if lotus and Ability.IsReady(lotus, myMana) and Menu.IsEnabled(ZFlex.Lotus) and RadiusForUseItem < 550 then
-            Ability.CastTarget(lotus, myHero)
-        end
-
-        if defuse and Ability.IsReady(defuse) and Menu.IsEnabled(ZFlex.Defuse) and RadiusForUseItem < 600 then
-            Ability.CastTarget(defuse, enemy)
-        end
-
-        if mjollnir and Ability.IsReady(mjollnir, myMana) and Menu.IsEnabled(ZFlex.Mjollnir) and RadiusForUseItem < 550 then
-            Ability.CastTarget(mjollnir, myHero)
-        end
-
-        if urn and Ability.IsReady(urn) and Menu.IsEnabled(ZFlex.Urn) and RadiusForUseItem < 950 then
-            Ability.CastTarget(urn, enemy)
-        end
-        if Menu.IsEnabled(ZFlex.optionSatanic) then
-            if satanic and Ability.IsReady(satanic) and Menu.IsEnabled(ZFlex.Satanic) and myhp < mymaxhp*50*0.01 then 
-                Ability.CastNoTarget(satanic)
+    
+            if bkb and Ability.IsReady(bkb) and Menu.IsEnabled(ZFlex.BlackKingBar) and RadiusForUseItem < 550 then
+                Ability.CastNoTarget(bkb)
             end
-        elseif not Menu.IsEnabled(ZFlex.optionSatanic) then
-            if satanic and Ability.IsReady(satanic) and Menu.IsEnabled(ZFlex.Satanic) then 
-                Ability.CastNoTarget(satanic)
+    
+            if bm and Ability.IsReady(bm, myMana) and Menu.IsEnabled(ZFlex.BladeMail) and RadiusForUseItem < 550 then
+                Ability.CastNoTarget(bm)
+  
             end
-        end
-        if hex and Ability.IsReady(hex, myMana) and Menu.IsEnabled(ZFlex.Hex) then
-            Ability.CastTarget(hex, enemy)
-        end
-        if necra and Ability.IsReady(necra, myMana) and Menu.IsEnabled(ZFlex.Necra) then
-            Ability.CastNoTarget(necra)
-        end
+    
+            if shiva and Ability.IsReady(shiva, myMana) and Menu.IsEnabled(ZFlex.Shiva) and RadiusForUseItem < 1100 then
+                Ability.CastNoTarget(shiva)
+               
+            end
+            if urn and Ability.IsReady(urn) and Menu.IsEnabled(ZFlex.Urn) and RadiusForUseItem < 950 then
+                Ability.CastTarget(urn, enemy)
 
-        if manta and Ability.IsReady(manta) and Menu.IsEnabled(ZFlex.Manta) then
-            Ability.CastNoTarget(manta)
-            ZFlex.lastTick = os.clock()
-        end
+            end
+            if Menu.IsEnabled(ZFlex.optionSatanic) then
+                if satanic and Ability.IsReady(satanic) and Menu.IsEnabled(ZFlex.Satanic) and myhp < mymaxhp*50*0.01 then 
+
+                end
+            elseif not Menu.IsEnabled(ZFlex.optionSatanic) then
+                if satanic and Ability.IsReady(satanic) and Menu.IsEnabled(ZFlex.Satanic) then 
+                    ZFlex.lastTick = os.clock()
+                end
+            end
+            if hex and Ability.IsReady(hex, myMana) and Menu.IsEnabled(ZFlex.Hex) then
+                Ability.CastTarget(hex, enemy)
+
+            end
+            if necra and Ability.IsReady(necra, myMana) and Menu.IsEnabled(ZFlex.Necra) then
+                Ability.CastNoTarget(necra)
+
+            end
+            if medal and Ability.IsReady(medal, myMana) and Menu.IsEnabled(ZFlex.Medal) and RadiusForUseItem < 1000 then
+                Ability.CastTarget(medal, enemy)
+           
+            end
+    
+            if manta and Ability.IsReady(manta) and Menu.IsEnabled(ZFlex.Manta) then
+                Ability.CastNoTarget(manta)
+            end
+    
+            if orchid and Ability.IsReady(orchid, myMana) and Menu.IsEnabled(ZFlex.Orchid) and RadiusForUseItem < 901 then
+                Ability.CastTarget(orchid, enemy)
+         
+            end
+            if abysal and Ability.IsReady(abysal, myMana) and Menu.IsEnabled(ZFlex.Abysal) and RadiusForUseItem < 280 then
+                if hex then
+                    if not Ability.IsReady(hex) and not modHex and ZFlex.SleepReady(0.4) then
+                        Ability.CastTarget(abysal, enemy)
+                    end
+                elseif not hex then
+                    Ability.CastTarget(abysal, enemy)
+                end
+            end
+    
+            if nul and Ability.IsReady(nul) and Menu.IsEnabled(ZFlex.Nul) then
+                if hex then
+                    if not Ability.IsReady(hex) and not modHex and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(nul, enemy)
+                    end
+                elseif not hex then
+                    Ability.CastTarget(nul, enemy)
+                end
+            end
+    
+            if pipe and Ability.IsReady(pipe, myMana) and Menu.IsEnabled(ZFlex.Pipe) and RadiusForUseItem < 550 then
+                if bkb then
+                    if not Ability.IsReady(bkb) and not modBkb and ZFlex.SleepReady(0.5) then
+                        Ability.CastNoTarget(pipe)
+                    end
+                elseif not bkb then
+                    Ability.CastNoTarget(pipe)
+                end  
+            end
+    
+            if lotus and Ability.IsReady(lotus, myMana) and Menu.IsEnabled(ZFlex.Lotus) and RadiusForUseItem < 550 then
+                if bkb then
+                    if not Ability.IsReady(bkb) and not modBkb and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(lotus, myHero)
+                    end
+                elseif not bkb and orchid then
+                    if not Ability.IsReady(orchid) and not modOrchid and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(lotus, myHero)
+                    end
+                elseif not bkb and not orchid then
+                    Ability.CastTarget(lotus, myHero)
+                end
+        
+            end
+    
+            if defuse and Ability.IsReady(defuse) and Menu.IsEnabled(ZFlex.Defuse) and RadiusForUseItem < 600 then
+                if abysal then
+                    if not Ability.IsReady(abysal) and not modAbysal and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(defuse, enemy)
+                    end
+                elseif not abysal and hex then
+                    if not Ability.IsReady(hex) and not modHex and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(defuse, enemy)
+                    end
+                elseif not abysal and not hex then
+                    Ability.CastTarget(defuse, enemy)
+                end
+            end
+    
+            if mjollnir and Ability.IsReady(mjollnir, myMana) and Menu.IsEnabled(ZFlex.Mjollnir) and RadiusForUseItem < 550 then
+                if abysal then
+                    if not Ability.IsReady(abysal) and not modAbysal and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(mjollnir, myHero)
+                    end
+                elseif not abysal and hex then
+                    if not Ability.IsReady(hex) and not modHex and ZFlex.SleepReady(0.5) then
+                        Ability.CastTarget(mjollnir, myHero)
+                    end
+                elseif not abysal and not hex then
+                    Ability.CastTarget(mjollnir, myHero)
+                end
+
+            end
     end
 end
 
